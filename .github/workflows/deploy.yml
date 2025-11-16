@@ -44,9 +44,9 @@ jobs:
       - name: Load Docker image and run container on remote VM
         run: |
           ssh -p $REMOTE_PORT $REMOTE_USER@$REMOTE_HOST << EOF
-            sudo docker load -i $REMOTE_PATH
             if [ "$(sudo docker ps -aq -f name=$DOCKER_CONTAINER_NAME)" ]; then
               sudo docker rm -f $DOCKER_CONTAINER_NAME
             fi
+            sudo docker load -i $REMOTE_PATH
             sudo docker run -d --name $DOCKER_CONTAINER_NAME -p 9123:8080 --restart unless-stopped $DOCKER_IMAGE_NAME
           EOF
