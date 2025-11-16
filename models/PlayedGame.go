@@ -1,5 +1,7 @@
 package models
 
+import "sync"
+
 type Game struct {
 	ID       string  `json:"id"`
 	Map      string  `json:"map"`
@@ -11,6 +13,7 @@ type Game struct {
 }
 
 var AllGames []Game
+var AllGamesMutex = &sync.Mutex{}
 
 func NewGame(id string, gameMap string, height int, width int) *Game {
 	game := Game{
@@ -20,7 +23,15 @@ func NewGame(id string, gameMap string, height int, width int) *Game {
 		Width:  width,
 	}
 
+	AllGamesMutex.Lock()
+
 	AllGames = append(AllGames, game)
+
+	if len(AllGames) > 100 {
+		AllGames = AllGames[1:]
+	}
+
+	AllGamesMutex.Unlock()
 
 	return &game
 }
