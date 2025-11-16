@@ -45,11 +45,9 @@ jobs:
         run: |
           ssh -p $REMOTE_PORT $REMOTE_USER@$REMOTE_HOST << 'EOF'
             cd $REMOTE_PATH
-            docker load -i $DOCKER_IMAGE_NAME.tar
-            # Stop and remove existing container if it exists
+            sudo docker load -i $DOCKER_IMAGE_NAME.tar
             if [ "$(docker ps -aq -f name=$DOCKER_CONTAINER_NAME)" ]; then
-              docker rm -f $DOCKER_CONTAINER_NAME
+              sudo docker rm -f $DOCKER_CONTAINER_NAME
             fi
-            # Run container detached, restart unless stopped, map port 9123 -> 8080
-            docker run -d --name $DOCKER_CONTAINER_NAME -p 9123:8080 --restart unless-stopped $DOCKER_IMAGE_NAME
+            sudo docker run -d --name $DOCKER_CONTAINER_NAME -p 9123:8080 --restart unless-stopped $DOCKER_IMAGE_NAME
           EOF
