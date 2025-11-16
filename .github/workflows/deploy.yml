@@ -16,7 +16,7 @@ jobs:
       REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
       REMOTE_PORT: ${{ secrets.REMOTE_PORT }}
       SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-      REMOTE_PATH: /home/ubuntu/battle_snake_go
+      REMOTE_PATH: /home/ubuntu/battle_snake_go.tar
 
     steps:
       - name: Checkout repo
