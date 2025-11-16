@@ -47,6 +47,12 @@ jobs:
             if [ "$(sudo docker ps -aq -f name=$DOCKER_CONTAINER_NAME)" ]; then
               sudo docker rm -f $DOCKER_CONTAINER_NAME
             fi
+          
+            if [ "\$(sudo docker images -q $DOCKER_IMAGE_NAME)" ]; then
+              sudo docker rmi -f $DOCKER_IMAGE_NAME
+            fi
+          
             sudo docker load -i $REMOTE_PATH
+          
             sudo docker run -d --name $DOCKER_CONTAINER_NAME -p 9123:8080 --restart unless-stopped $DOCKER_IMAGE_NAME
           EOF
